@@ -1,0 +1,58 @@
+﻿@page "/personaje"
+@inject PersonajeService personajeService
+@inject NavigationManager navManager
+@using Tarea5.Modelos
+@using Tarea5.Services
+<div class="container mt-5">
+    <h3>Registro de Personaje</h3>
+
+    <EditForm Model="@nuevoPersonaje" OnValidSubmit="Registrar">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
+        <div class="mb-3">
+            <label class="form-label">Nombre:</label>
+            <InputText class="form-control" @bind-Value="nuevoPersonaje.Nombre" />
+            <ValidationMessage For="@(() => nuevoPersonaje.Nombre)" />
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Alias (opcional):</label>
+            <InputText class="form-control" @bind-Value="nuevoPersonaje.Alias" />
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Rol en el juego:</label>
+            <InputText class="form-control" @bind-Value="nuevoPersonaje.RolEnElJuego" />
+            <ValidationMessage For="@(() => nuevoPersonaje.RolEnElJuego)" />
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Habilidad especial (opcional):</label>
+            <InputText class="form-control" @bind-Value="nuevoPersonaje.HabilidadEspecial" />
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Arma favorita (opcional):</label>
+            <InputText class="form-control" @bind-Value="nuevoPersonaje.ArmaFavorita" />
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Nivel de poder (1-100):</label>
+            <InputNumber class="form-control" @bind-Value="nuevoPersonaje.NivelDePoder" min="1" max="100" />
+            <ValidationMessage For="@(() => nuevoPersonaje.NivelDePoder)" />
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Imagen del personaje (URL):</label>
+            <InputText class="form-control" @bind-Value="nuevoPersonaje.ImagenDelPersonaje" />
+            <ValidationMessage For="@(() => nuevoPersonaje.ImagenDelPersonaje)" />
+        </div>
+
+        <button type="submit" class="btn btn-primary">Registrar Personaje</button>
+    </EditForm>
+</div>
+
+@code {
+    private Personaje nuevoPersonaje = new Personaje();
+
+    private async Task Registrar()
+    {
+        await personajeService.AddAsync(nuevoPersonaje);
+        navManager.NavigateTo("/lista-personajes"); // Cambia esto a la ruta que necesites
+    }
+}

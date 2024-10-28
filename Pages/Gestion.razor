@@ -1,0 +1,33 @@
+﻿@page "/gestion-plataformas"
+@inject PlataformaService plataformaService
+@inject NavigationManager navManager
+@using Tarea5.Modelos
+@using Tarea5.Services
+
+<h3>Gestión de Plataformas</h3>
+
+<EditForm Model="@nuevaPlataforma" OnValidSubmit="Registrar">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div>
+        <label>Nombre de la plataforma:</label>
+        <InputText @bind-Value="nuevaPlataforma.Nombre" />
+    </div>
+    <div>
+        <label>Estado:</label>
+        <InputCheckbox @bind-Value="nuevaPlataforma.Estado" />
+    </div>
+
+    <button type="submit">Registrar Plataforma</button>
+</EditForm>
+
+@code {
+    private Plataforma nuevaPlataforma = new Plataforma();
+
+    private async Task Registrar()
+    {
+        await plataformaService.AddAsync(nuevaPlataforma);
+        navManager.NavigateTo("/gestion-plataformas");
+    }
+}

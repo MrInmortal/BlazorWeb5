@@ -1,0 +1,53 @@
+﻿@page "/registro-videojuegos"
+@inject VideojuegoService videojuegoService
+@inject NavigationManager navManager
+@using Tarea5.Modelos
+@using Tarea5.Services
+
+<h3>Registro de Videojuegos</h3>
+
+<EditForm Model="@nuevoVideojuego" OnValidSubmit="Registrar">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div>
+        <label>Nombre:</label>
+        <InputText @bind-Value="nuevoVideojuego.Nombre" />
+    </div>
+    <div>
+        <label>Desarrollador:</label>
+        <InputText @bind-Value="nuevoVideojuego.Desarrollador" />
+    </div>
+    <div>
+        <label>Plataforma:</label>
+        <InputText @bind-Value="nuevoVideojuego.Plataforma" />
+    </div>
+    <div>
+        <label>Género:</label>
+        <InputText @bind-Value="nuevoVideojuego.Genero" />
+    </div>
+    <div>
+        <label>Fecha de lanzamiento:</label>
+        <InputDate @bind-Value="nuevoVideojuego.FechaDeLanzamiento" />
+    </div>
+    <div>
+        <label>Imagen de portada:</label>
+        <InputText @bind-Value="nuevoVideojuego.ImagenPortada" />
+    </div>
+    <div>
+        <label>Descripción:</label>
+        <InputTextArea @bind-Value="nuevoVideojuego.Descripcion" />
+    </div>
+
+    <button type="submit">Registrar Videojuego</button>
+</EditForm>
+
+@code {
+    private Videojuego nuevoVideojuego = new Videojuego();
+
+    private async Task Registrar()
+    {
+        await videojuegoService.AddAsync(nuevoVideojuego);
+        navManager.NavigateTo("/"); // Redirige a la página de inicio u otra página después del registro
+    }
+}
